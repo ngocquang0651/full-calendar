@@ -4,7 +4,12 @@ import React, { Suspense } from "react";
 import { Calendar } from "@/modules/components/calendar/calendar";
 import { CalendarSkeleton } from "@/modules/components/calendar/skeletons/calendar-skeleton";
 
-export default function CalendarPage() {
+import { getEvents, getUsers } from "@/modules/components/calendar/requests";
+
+export default async function CalendarPage() {
+	const events = await getEvents();
+	const users = await getUsers();
+
 	return (
 		<main className="flex max-h-screen my-10 flex-col">
 			<div className="container p-4 md:mx-auto">
@@ -51,7 +56,7 @@ export default function CalendarPage() {
 					</div>
 				</div>
 				<Suspense fallback={<CalendarSkeleton />}>
-					<Calendar />
+					<Calendar events={events} users={users} />
 				</Suspense>
 			</div>
 		</main>
